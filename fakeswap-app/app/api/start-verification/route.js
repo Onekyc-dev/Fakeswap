@@ -1,6 +1,6 @@
 export async function POST(request) {
   const origin = request.headers.get("origin") || new URL(request.url).origin;
-  const redirectUri = `${origin}/callback`;
+  const redirectUri = `${origin.replace(/\/$/, "")}/callback`;
 
   const res = await fetch("https://onekyc-zeta.vercel.app/api/verify/request", {
     method: "POST",
