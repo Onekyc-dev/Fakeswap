@@ -6,11 +6,17 @@ export default function SwapPage() {
   const [verified, setVerified] = useState(false);
   const [message, setMessage] = useState("");
 
-  function handleVerifyClick() {
-    // Intentionally does nothing yet — this is the last piece we wire
-    // up, once FakeSwap is deployed and working on its own.
-    setMessage("Not wired up yet — this is step 3.");
+  async function handleVerifyClick() {
+    setMessage("Redirecting…");
+    const res = await fetch("/api/start-verification", { method: "POST" });
+    const data = await res.json();
+    if (!res.ok) {
+      setMessage(data.error || "Something went wrong.");
+      return;
+    }
+    window.location.href = data.redirectUrl;
   }
+
 
   function handleConfirmSwap() {
     setMessage("Swap confirmed! (this is a fake swap, nothing actually moved)");
